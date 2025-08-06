@@ -155,14 +155,21 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
-#connect-wallet-btn {
+/* Enhanced wallet buttons container */
+.wallet-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#connect-wallet-btn, #disconnect-wallet-btn {
     padding: 15px 35px;
     font-size: 1.3rem;
     font-weight: 700;
-    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
     border: none;
     border-radius: 25px;
     color: white;
@@ -170,9 +177,16 @@ h1 {
     font-family: 'Orbitron', monospace;
     text-transform: uppercase;
     letter-spacing: 1px;
-    box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
     transition: all 0.3s ease;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#connect-wallet-btn {
+    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+    box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
 }
 
 #connect-wallet-btn:hover {
@@ -186,6 +200,27 @@ h1 {
     transform: none;
 }
 
+/* Disconnect button styling */
+#disconnect-wallet-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+}
+
+#disconnect-wallet-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
+    background: linear-gradient(45deg, #ff5252, #ff1744);
+}
+
+/* Button icons */
+.btn-icon {
+    font-size: 1.2rem;
+}
+
+.btn-text {
+    font-size: 1rem;
+}
+
 #wallet-status {
     font-size: 1rem;
     margin-bottom: 20px;
@@ -197,6 +232,8 @@ h1 {
 
 .connected {
     color: #4ecdc4 !important;
+    border: 1px solid #4ecdc4;
+    box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
 }
 
 .disconnected {
@@ -250,6 +287,10 @@ h1 {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
 
 #attack-btn:hover:not(:disabled) {
@@ -281,6 +322,21 @@ h1 {
 
 #attack-btn:hover:not(:disabled)::before {
     left: 100%;
+}
+
+/* Attack button icons and text */
+.attack-icon {
+    font-size: 1.8rem;
+    animation: attackPulse 2s ease-in-out infinite;
+}
+
+.attack-text {
+    font-size: 1.2rem;
+}
+
+@keyframes attackPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
 #winner-banner {
@@ -323,6 +379,7 @@ h1 {
     pointer-events: none;
     animation: damageFloat 2s ease-out forwards;
     z-index: 100;
+    text-shadow: 0 0 10px #ff4444, 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 @keyframes damageFloat {
@@ -346,11 +403,20 @@ h1 {
     border: 2px solid #4ecdc4;
     backdrop-filter: blur(10px);
     min-width: 200px;
+    box-shadow: 0 0 20px rgba(78, 205, 196, 0.2);
 }
 
 .stat {
     margin: 10px 0;
     font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat span {
+    color: #4ecdc4;
+    text-shadow: 0 0 5px rgba(78, 205, 196, 0.5);
 }
 
 .loading {
@@ -369,45 +435,19 @@ h1 {
     100% { transform: rotate(360deg); }
 }
 
-@media (max-width: 768px) {
-    h1 { 
-        font-size: 2.5rem; 
-    }
-    
-    #boss-image { 
-        width: 250px; 
-        height: 250px; 
-    }
-    
-    #hp-text { 
-        font-size: 1.5rem; 
-    }
-    
-    #attack-btn { 
-        font-size: 1.2rem; 
-        padding: 15px 30px; 
-    }
-    
-    #connect-wallet-btn {
-        font-size: 1.1rem;
-        padding: 12px 25px;
-    }
-    
-    #winner-banner { 
-        font-size: 2rem; 
-        padding: 20px 40px; 
-    }
-    
-    .stats-panel { 
-        position: static; 
-        margin: 20px auto; 
-    }
-    
-    #username {
-        min-width: 250px;
-        font-size: 1rem;
-    }
+/* Enhanced screen shake effect */
+@keyframes screenShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
+
+/* Floating particles animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+}
+
 .social-footer {
     text-align: center;
     margin-top: 40px;
@@ -433,4 +473,92 @@ h1 {
 .x-link:hover {
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 6px 20px rgba(29, 161, 242, 0.5);
+}
+
+/* Enhanced responsive design */
+@media (max-width: 768px) {
+    h1 { 
+        font-size: 2.5rem; 
+    }
+    
+    #boss-image { 
+        width: 250px; 
+        height: 250px; 
+    }
+    
+    #hp-text { 
+        font-size: 1.5rem; 
+    }
+    
+    #attack-btn { 
+        font-size: 1.2rem; 
+        padding: 15px 30px;
+        gap: 10px;
+    }
+    
+    .attack-icon {
+        font-size: 1.4rem;
+    }
+    
+    .attack-text {
+        font-size: 1rem;
+    }
+    
+    #connect-wallet-btn, #disconnect-wallet-btn {
+        font-size: 1.1rem;
+        padding: 12px 25px;
+    }
+    
+    .wallet-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-text {
+        font-size: 0.9rem;
+    }
+    
+    #winner-banner { 
+        font-size: 2rem; 
+        padding: 20px 40px;
+        max-width: 90vw;
+    }
+    
+    .stats-panel { 
+        position: static; 
+        margin: 20px auto;
+        max-width: 300px;
+    }
+    
+    #username {
+        min-width: 250px;
+        font-size: 1rem;
+    }
+    
+    #wallet-section {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wallet-buttons {
+        width: 100%;
+    }
+    
+    #connect-wallet-btn, #disconnect-wallet-btn {
+        width: 100%;
+        justify-content: center;
+        min-width: 200px;
+    }
+    
+    #attack-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    #username {
+        width: 100%;
+        max-width: 300px;
+        min-width: unset;
+    }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,11 +26,25 @@
         
         <div class="controls">
             <div id="wallet-section">
-                <button id="connect-wallet-btn">🔗 CONNECT WALLET</button>
+                <div class="wallet-buttons">
+                    <button id="connect-wallet-btn">
+                        <span class="btn-icon">🔗</span>
+                        <span class="btn-text">CONNECT WALLET</span>
+                    </button>
+                    <button id="disconnect-wallet-btn" style="display: none;">
+                        <span class="btn-icon">🔌</span>
+                        <span class="btn-text">DISCONNECT</span>
+                    </button>
+                </div>
                 <p id="wallet-status">Not Connected</p>
             </div>
+            
             <input type="text" id="username" placeholder="⚡ Enter Your Battle Name ⚡" disabled>
-            <button id="attack-btn" disabled>🗡️ UNLEASH ATTACK 🗡️</button>
+            
+            <button id="attack-btn" disabled>
+                <span class="attack-icon">🗡️</span>
+                <span class="attack-text">UNLEASH ATTACK</span>
+            </button>
         </div>
         
         <div class="stats-panel">
@@ -42,6 +56,7 @@
         
         <div id="winner-banner"></div>
     </div>
+    
     <!-- X/Twitter Link at Bottom -->
     <footer class="social-footer">
         <a href="https://twitter.com/YourTwitterHandle" target="_blank" class="x-link">

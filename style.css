@@ -14,6 +14,7 @@ body {
     color: #fff;
     overflow-x: hidden;
     min-height: 100vh;
+    padding-top: 80px; /* Space for fixed header */
 }
 
 @keyframes gradientShift {
@@ -43,6 +44,176 @@ body {
 @keyframes twinkle {
     0%, 100% { opacity: 0.3; }
     50% { opacity: 1; }
+}
+
+/* Top Header Styles */
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #4ecdc4;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(78, 205, 196, 0.2);
+}
+
+.desktop-wallet {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mobile-hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px;
+    margin-left: auto;
+}
+
+.mobile-hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #4ecdc4;
+    margin: 3px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+.mobile-hamburger.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.mobile-hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-hamburger.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* Mobile Menu Styles */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    border-right: 2px solid #4ecdc4;
+    z-index: 1001;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+}
+
+.mobile-menu.active {
+    left: 0;
+}
+
+.mobile-menu-content {
+    padding: 100px 20px 20px;
+}
+
+.mobile-menu-content h3, .mobile-menu-content h4 {
+    color: #4ecdc4;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.mobile-menu-content h4 {
+    font-size: 1rem;
+    margin-top: 30px;
+}
+
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-wallet-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#mobile-wallet-status {
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    margin-bottom: 20px;
+}
+
+.mobile-username-section {
+    margin-bottom: 20px;
+}
+
+#mobile-username {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #4ecdc4;
+    border-radius: 20px;
+    color: white;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', monospace;
+    text-align: center;
+}
+
+#mobile-username:focus {
+    outline: none;
+    border-color: #45b7d1;
+    box-shadow: 0 0 20px rgba(69, 183, 209, 0.5);
+}
+
+#mobile-username::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.mobile-stats {
+    text-align: center;
+}
+
+.mobile-stat {
+    margin: 10px 0;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.mobile-stat span {
+    color: #4ecdc4;
+    text-shadow: 0 0 5px rgba(78, 205, 196, 0.5);
 }
 
 #game-container {
@@ -75,7 +246,7 @@ h1 {
 #boss-image {
     width: 350px;
     height: 350px;
-    mix-blend-mode: screen;  /* This removes black background */
+    mix-blend-mode: screen;
     filter: drop-shadow(0 0 30px #ff0000) drop-shadow(0 0 60px #ff0000);
     animation: bossFloat 3s ease-in-out infinite, bossGlow 4s ease-in-out infinite;
     transition: all 0.3s ease;
@@ -143,55 +314,54 @@ h1 {
     100% { background-position: 200% 50%; }
 }
 
-.controls {
-    margin: 40px 0;
+/* Desktop Controls */
+.desktop-controls {
+    margin: 30px 0;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    justify-content: center;
 }
 
-#wallet-section {
+/* Attack Section */
+.attack-section {
+    margin: 30px 0 40px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+    justify-content: center;
 }
 
 /* Enhanced wallet buttons container */
 .wallet-buttons {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
-#connect-wallet-btn, #disconnect-wallet-btn {
-    padding: 15px 35px;
-    font-size: 1.3rem;
+#connect-wallet-btn, #disconnect-wallet-btn, 
+#mobile-connect-wallet-btn, #mobile-disconnect-wallet-btn {
+    padding: 12px 20px;
+    font-size: 1rem;
     font-weight: 700;
     border: none;
-    border-radius: 25px;
+    border-radius: 20px;
     color: white;
     cursor: pointer;
     font-family: 'Orbitron', monospace;
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: all 0.3s ease;
-    margin-bottom: 10px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
-#connect-wallet-btn {
+#connect-wallet-btn, #mobile-connect-wallet-btn {
     background: linear-gradient(45deg, #4ecdc4, #45b7d1);
-    box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+    box-shadow: 0 6px 15px rgba(78, 205, 196, 0.4);
 }
 
-#connect-wallet-btn:hover {
+#connect-wallet-btn:hover, #mobile-connect-wallet-btn:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 12px 25px rgba(78, 205, 196, 0.6);
+    box-shadow: 0 8px 20px rgba(78, 205, 196, 0.6);
 }
 
 #connect-wallet-btn:disabled {
@@ -200,34 +370,34 @@ h1 {
     transform: none;
 }
 
-/* Disconnect button styling */
-#disconnect-wallet-btn {
+#disconnect-wallet-btn, #mobile-disconnect-wallet-btn {
     background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+    box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
 }
 
-#disconnect-wallet-btn:hover {
+#disconnect-wallet-btn:hover, #mobile-disconnect-wallet-btn:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
     background: linear-gradient(45deg, #ff5252, #ff1744);
 }
 
 /* Button icons */
 .btn-icon {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .btn-text {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 #wallet-status {
-    font-size: 1rem;
-    margin-bottom: 20px;
-    padding: 8px 15px;
+    font-size: 0.9rem;
+    padding: 6px 12px;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
+    min-width: 150px;
+    text-align: center;
 }
 
 .connected {
@@ -404,6 +574,7 @@ h1 {
     backdrop-filter: blur(10px);
     min-width: 200px;
     box-shadow: 0 0 20px rgba(78, 205, 196, 0.2);
+    margin-top: 80px;
 }
 
 .stat {
@@ -475,8 +646,38 @@ h1 {
     box-shadow: 0 6px 20px rgba(29, 161, 242, 0.5);
 }
 
-/* Enhanced responsive design */
+/* Responsive Design */
 @media (max-width: 768px) {
+    /* Show mobile hamburger, hide desktop wallet */
+    .mobile-hamburger {
+        display: flex;
+    }
+    
+    .desktop-wallet {
+        display: none;
+    }
+    
+    .desktop-controls {
+        display: none;
+    }
+    
+    .desktop-only {
+        display: none;
+    }
+    
+    .mobile-menu {
+        width: 60%;
+        left: -60%;
+    }
+    
+    body {
+        padding-top: 70px;
+    }
+    
+    .top-header {
+        height: 70px;
+    }
+    
     h1 { 
         font-size: 2.5rem; 
     }
@@ -494,6 +695,8 @@ h1 {
         font-size: 1.2rem; 
         padding: 15px 30px;
         gap: 10px;
+        width: 90%;
+        max-width: 300px;
     }
     
     .attack-icon {
@@ -502,20 +705,6 @@ h1 {
     
     .attack-text {
         font-size: 1rem;
-    }
-    
-    #connect-wallet-btn, #disconnect-wallet-btn {
-        font-size: 1.1rem;
-        padding: 12px 25px;
-    }
-    
-    .wallet-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .btn-text {
-        font-size: 0.9rem;
     }
     
     #winner-banner { 
@@ -528,37 +717,39 @@ h1 {
         position: static; 
         margin: 20px auto;
         max-width: 300px;
+        margin-top: 20px;
     }
     
-    #username {
-        min-width: 250px;
-        font-size: 1rem;
-    }
-    
-    #wallet-section {
-        gap: 10px;
+    .mobile-menu-content {
+        padding: 80px 15px 20px;
     }
 }
 
 @media (max-width: 480px) {
-    .wallet-buttons {
-        width: 100%;
+    .mobile-menu {
+        width: 80%;
+        left: -80%;
     }
     
-    #connect-wallet-btn, #disconnect-wallet-btn {
-        width: 100%;
-        justify-content: center;
-        min-width: 200px;
+    h1 {
+        font-size: 2rem;
+    }
+    
+    #boss-image {
+        width: 200px;
+        height: 200px;
+    }
+    
+    #hp-text {
+        font-size: 1.2rem;
     }
     
     #attack-btn {
-        width: 100%;
-        max-width: 300px;
+        font-size: 1.1rem;
+        padding: 12px 25px;
     }
     
-    #username {
-        width: 100%;
-        max-width: 300px;
-        min-width: unset;
+    .attack-text {
+        font-size: 0.9rem;
     }
 }

@@ -10,6 +10,62 @@
 <body>
     <div class="stars" id="stars"></div>
     
+    <!-- Top Header -->
+    <header class="top-header">
+        <!-- Desktop Wallet Section -->
+        <div class="desktop-wallet">
+            <div class="wallet-buttons">
+                <button id="connect-wallet-btn">
+                    <span class="btn-icon">🔗</span>
+                    <span class="btn-text">CONNECT</span>
+                </button>
+                <button id="disconnect-wallet-btn" style="display: none;">
+                    <span class="btn-icon">🔌</span>
+                    <span class="btn-text">DISCONNECT</span>
+                </button>
+            </div>
+            <p id="wallet-status">Not Connected</p>
+        </div>
+        
+        <!-- Mobile Hamburger -->
+        <div class="mobile-hamburger" id="mobile-hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- Mobile Slide Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-content">
+            <h3>Wallet Connection</h3>
+            <div class="mobile-wallet-buttons">
+                <button id="mobile-connect-wallet-btn">
+                    <span class="btn-icon">🔗</span>
+                    <span class="btn-text">CONNECT WALLET</span>
+                </button>
+                <button id="mobile-disconnect-wallet-btn" style="display: none;">
+                    <span class="btn-icon">🔌</span>
+                    <span class="btn-text">DISCONNECT</span>
+                </button>
+            </div>
+            <p id="mobile-wallet-status">Not Connected</p>
+            
+            <div class="mobile-username-section">
+                <h4>Battle Name</h4>
+                <input type="text" id="mobile-username" placeholder="⚡ Your Battle Name ⚡">
+            </div>
+            
+            <div class="mobile-stats">
+                <h4>Your Stats</h4>
+                <div class="mobile-stat">Contribution: <span id="mobile-user-damage">0</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+    
     <div id="game-container">
         <h1>⚔️ NAD BOSS BATTLE ⚔️</h1>
         
@@ -24,23 +80,13 @@
             </div>
         </div>
         
-        <div class="controls">
-            <div id="wallet-section">
-                <div class="wallet-buttons">
-                    <button id="connect-wallet-btn">
-                        <span class="btn-icon">🔗</span>
-                        <span class="btn-text">CONNECT WALLET</span>
-                    </button>
-                    <button id="disconnect-wallet-btn" style="display: none;">
-                        <span class="btn-icon">🔌</span>
-                        <span class="btn-text">DISCONNECT</span>
-                    </button>
-                </div>
-                <p id="wallet-status">Not Connected</p>
-            </div>
-            
+        <!-- Desktop Username Input -->
+        <div class="desktop-controls">
             <input type="text" id="username" placeholder="⚡ Enter Your Battle Name ⚡" disabled>
-            
+        </div>
+        
+        <!-- Attack Button (Always Visible) -->
+        <div class="attack-section">
             <button id="attack-btn" disabled>
                 <span class="attack-icon">🗡️</span>
                 <span class="attack-text">UNLEASH ATTACK</span>
@@ -51,7 +97,7 @@
             <div class="stat">Global Attacks: <span id="global-attacks">0</span></div>
             <div class="stat">Total Damage: <span id="total-damage">0</span></div>
             <div class="stat">Boss Status: <span id="boss-status">🔥 RAGING</span></div>
-            <div class="stat">Your Contribution: <span id="user-damage">0</span></div>
+            <div class="stat desktop-only">Your Contribution: <span id="user-damage">0</span></div>
         </div>
         
         <div id="winner-banner"></div>
@@ -63,7 +109,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
-            Follow on X
+            Follow
         </a>
     </footer>
 

@@ -1,4 +1,4 @@
-// Enhanced Boss Battle Game JavaScript - FIXED VERSION
+// Enhanced Boss Battle Game JavaScript - COMPLETE FIXED VERSION
 const contractAddress = "0x3b2628e38dd17fbe9e04d8a86272e26c111db06f";
 const contractABI = [
     {
@@ -72,6 +72,57 @@ let contract;
 let userAccount = null;
 let lastSavedUsername = "";
 
+// Mobile Menu Functions
+function initMobileMenu() {
+    const hamburger = document.getElementById('mobile-hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const overlay = document.getElementById('mobile-menu-overlay');
+    
+    if (hamburger && mobileMenu && overlay) {
+        hamburger.addEventListener('click', toggleMobileMenu);
+        overlay.addEventListener('click', closeMobileMenu);
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+    }
+}
+
+function toggleMobileMenu() {
+    const hamburger = document.getElementById('mobile-hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const overlay = document.getElementById('mobile-menu-overlay');
+    
+    if (hamburger && mobileMenu && overlay) {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (mobileMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }
+}
+
+function closeMobileMenu() {
+    const hamburger = document.getElementById('mobile-hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const overlay = document.getElementById('mobile-menu-overlay');
+    
+    if (hamburger && mobileMenu && overlay) {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+}
+
 // Create animated stars and particles
 function createStars() {
     const starsContainer = document.getElementById('stars');
@@ -111,6 +162,7 @@ function createParticles() {
 async function init() {
     createStars();
     createParticles();
+    initMobileMenu();
     
     // Check if wallet was previously connected
     if (window.ethereum) {
@@ -150,6 +202,73 @@ async function init() {
         updateConnectionStatus();
         // Try to show general stats anyway
         await updateGeneralStats();
+    }
+}
+
+// Enhanced username management
+function loadSavedUsername() {
+    if (userAccount) {
+        const savedName = localStorage.getItem(`username_${userAccount}`);
+        if (savedName) {
+            lastSavedUsername = savedName;
+            // Update both desktop and mobile inputs
+            const usernameInput = document.getElementById("username");
+            const mobileUsernameInput = document.getElementById("mobile-username");
+            
+            if (usernameInput) {
+                usernameInput.value = savedName;
+            }
+            if (mobileUsernameInput) {
+                mobileUsernameInput.value = savedName;
+            }
+        }
+    }
+}
+
+function saveUsername(username) {
+    if (userAccount && username) {
+        localStorage.setItem(`username_${userAccount}`, username);
+        lastSavedUsername = username;
+        
+        // Sync both inputs
+        const usernameInput = document.getElementById("username");
+        const mobileUsernameInput = document.getElementById("mobile-username");
+        
+        if (usernameInput && usernameInput.value !== username) {
+            usernameInput.value = username;
+        }
+        if (mobileUsernameInput && mobileUsernameInput.value !== username) {
+            mobileUsernameInput.value = username;
+        }
+    }
+}
+
+function getCurrentUsername() {
+    const usernameInput = document.getElementById("username");
+    const mobileUsernameInput = document.getElementById("mobile-username");
+    
+    // Check mobile input first (in case desktop is hidden)
+    if (mobileUsernameInput && mobileUsernameInput.value.trim()) {
+        return mobileUsernameInput.value.trim();
+    }
+    if (usernameInput && usernameInput.value.trim()) {
+        return usernameInput.value.trim();
+    }
+    
+    return lastSavedUsername || "";
+}
+
+function syncUsernameInputs(sourceId) {
+    const sourceInput = document.getElementById(sourceId);
+    const targetInput = document.getElementById(
+        sourceId === "username" ? "mobile-username" : "username"
+    );
+    
+    if (sourceInput && targetInput) {
+        targetInput.value = sourceInput.value;
+        if (sourceInput.value.trim()) {
+            saveUsername(sourceInput.value.trim());
+        }
     }
 }
 
@@ -204,43 +323,27 @@ async function updateGeneralStats() {
     }
 }
 
-function loadSavedUsername() {
-    if (userAccount) {
-        const savedName = localStorage.getItem(`username_${userAccount}`);
-        if (savedName) {
-            lastSavedUsername = savedName;
-            const usernameInput = document.getElementById("username");
-            if (usernameInput) {
-                usernameInput.value = savedName;
-            }
-        }
-    }
-}
-
-function saveUsername(username) {
-    if (userAccount && username) {
-        localStorage.setItem(`username_${userAccount}`, username);
-        lastSavedUsername = username;
-    }
-}
-
 function enableGameControls() {
     const usernameInput = document.getElementById("username");
+    const mobileUsernameInput = document.getElementById("mobile-username");
     const attackBtn = document.getElementById("attack-btn");
     
     if (usernameInput) usernameInput.disabled = false;
+    if (mobileUsernameInput) mobileUsernameInput.disabled = false;
     if (attackBtn) attackBtn.disabled = false;
 }
 
 function disableGameControls() {
     const usernameInput = document.getElementById("username");
+    const mobileUsernameInput = document.getElementById("mobile-username");
     const attackBtn = document.getElementById("attack-btn");
     
     if (usernameInput) usernameInput.disabled = true;
+    if (mobileUsernameInput) mobileUsernameInput.disabled = true;
     if (attackBtn) attackBtn.disabled = true;
 }
 
-// Real-time updates every 10 seconds
+// Real-time updates every 8 seconds
 let updateInterval;
 
 function startRealTimeUpdates() {
@@ -292,6 +395,9 @@ async function connectWallet() {
             // Start real-time updates
             startRealTimeUpdates();
             
+            // Close mobile menu if open
+            closeMobileMenu();
+            
             console.log("Wallet connected successfully:", userAccount);
             
         } catch (error) {
@@ -311,22 +417,33 @@ function disconnectWallet() {
     contract = null;
     lastSavedUsername = "";
     
-    // Clear username input
+    // Clear username inputs
     const usernameInput = document.getElementById("username");
+    const mobileUsernameInput = document.getElementById("mobile-username");
     if (usernameInput) {
         usernameInput.value = "";
+    }
+    if (mobileUsernameInput) {
+        mobileUsernameInput.value = "";
     }
     
     // Reset user damage display
     const userDamageElement = document.getElementById("user-damage");
+    const mobileUserDamageElement = document.getElementById("mobile-user-damage");
     if (userDamageElement) {
         userDamageElement.textContent = "0";
+    }
+    if (mobileUserDamageElement) {
+        mobileUserDamageElement.textContent = "0";
     }
     
     // Update UI
     updateConnectionStatus();
     disableGameControls();
     stopRealTimeUpdates();
+    
+    // Close mobile menu if open
+    closeMobileMenu();
     
     // Continue showing general stats
     updateGeneralStats();
@@ -336,34 +453,59 @@ function disconnectWallet() {
 
 function updateConnectionStatus() {
     const statusElement = document.getElementById("wallet-status");
+    const mobileStatusElement = document.getElementById("mobile-wallet-status");
     const connectBtn = document.getElementById("connect-wallet-btn");
     const disconnectBtn = document.getElementById("disconnect-wallet-btn");
+    const mobileConnectBtn = document.getElementById("mobile-connect-wallet-btn");
+    const mobileDisconnectBtn = document.getElementById("mobile-disconnect-wallet-btn");
     
-    if (userAccount && statusElement && connectBtn) {
-        statusElement.textContent = `Connected: ${userAccount.slice(0,6)}...${userAccount.slice(-4)}`;
-        statusElement.className = "wallet-status connected";
+    if (userAccount) {
+        const shortAddress = `${userAccount.slice(0,6)}...${userAccount.slice(-4)}`;
         
-        connectBtn.style.display = "none";
-        if (disconnectBtn) disconnectBtn.style.display = "flex";
+        // Update status displays
+        if (statusElement) {
+            statusElement.textContent = `Connected: ${shortAddress}`;
+            statusElement.className = "wallet-status connected";
+        }
+        if (mobileStatusElement) {
+            mobileStatusElement.textContent = `Connected: ${shortAddress}`;
+            mobileStatusElement.className = "connected";
+        }
         
-        // Update button text to show connected status
-        connectBtn.innerHTML = `
-            <span class="btn-icon">✅</span>
-            <span class="btn-text">WALLET CONNECTED</span>
-        `;
-        connectBtn.disabled = true;
-    } else if (statusElement && connectBtn) {
-        statusElement.textContent = "Not Connected";
-        statusElement.className = "wallet-status disconnected";
+        // Update desktop buttons
+        if (connectBtn && disconnectBtn) {
+            connectBtn.style.display = "none";
+            disconnectBtn.style.display = "flex";
+        }
         
-        connectBtn.style.display = "flex";
-        if (disconnectBtn) disconnectBtn.style.display = "none";
+        // Update mobile buttons
+        if (mobileConnectBtn && mobileDisconnectBtn) {
+            mobileConnectBtn.style.display = "none";
+            mobileDisconnectBtn.style.display = "flex";
+        }
         
-        connectBtn.innerHTML = `
-            <span class="btn-icon">🔗</span>
-            <span class="btn-text">CONNECT WALLET</span>
-        `;
-        connectBtn.disabled = false;
+    } else {
+        // Update status displays
+        if (statusElement) {
+            statusElement.textContent = "Not Connected";
+            statusElement.className = "wallet-status disconnected";
+        }
+        if (mobileStatusElement) {
+            mobileStatusElement.textContent = "Not Connected";
+            mobileStatusElement.className = "disconnected";
+        }
+        
+        // Update desktop buttons
+        if (connectBtn && disconnectBtn) {
+            connectBtn.style.display = "flex";
+            disconnectBtn.style.display = "none";
+        }
+        
+        // Update mobile buttons
+        if (mobileConnectBtn && mobileDisconnectBtn) {
+            mobileConnectBtn.style.display = "flex";
+            mobileDisconnectBtn.style.display = "none";
+        }
     }
 }
 
@@ -437,17 +579,31 @@ async function updateAllStats() {
             try {
                 const userContribution = await contract.methods.getPlayerContribution(userAccount).call();
                 const userDamageElement = document.getElementById("user-damage");
-                if (userDamageElement) {
+                const mobileUserDamageElement = document.getElementById("mobile-user-damage");
+                
+                if (userDamageElement || mobileUserDamageElement) {
                     const formattedContribution = parseInt(userContribution).toLocaleString();
-                    userDamageElement.textContent = formattedContribution;
+                    
+                    if (userDamageElement) {
+                        userDamageElement.textContent = formattedContribution;
+                    }
+                    if (mobileUserDamageElement) {
+                        mobileUserDamageElement.textContent = formattedContribution;
+                    }
+                    
                     console.log("User contribution updated:", formattedContribution); // Debug log
                 }
             } catch (error) {
                 console.error("Error getting user contribution:", error);
                 // Don't fail the whole update if user contribution fails
                 const userDamageElement = document.getElementById("user-damage");
+                const mobileUserDamageElement = document.getElementById("mobile-user-damage");
+                
                 if (userDamageElement && userDamageElement.textContent === "") {
                     userDamageElement.textContent = "0";
+                }
+                if (mobileUserDamageElement && mobileUserDamageElement.textContent === "") {
+                    mobileUserDamageElement.textContent = "0";
                 }
             }
         }
@@ -612,13 +768,7 @@ async function performAttack() {
         return;
     }
     
-    const usernameInput = document.getElementById("username");
-    if (!usernameInput) {
-        alert("⚠️ Username input not found!");
-        return;
-    }
-    
-    const username = usernameInput.value.trim();
+    const username = getCurrentUsername();
     if (!username) {
         alert("⚠️ Enter your battle name to attack!");
         return;
@@ -696,16 +846,26 @@ async function performAttack() {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // Connect wallet button
+    // Desktop Connect/Disconnect wallet buttons
     const connectBtn = document.getElementById("connect-wallet-btn");
+    const disconnectBtn = document.getElementById("disconnect-wallet-btn");
+    
     if (connectBtn) {
         connectBtn.onclick = connectWallet;
     }
-    
-    // Disconnect wallet button
-    const disconnectBtn = document.getElementById("disconnect-wallet-btn");
     if (disconnectBtn) {
         disconnectBtn.onclick = disconnectWallet;
+    }
+    
+    // Mobile Connect/Disconnect wallet buttons
+    const mobileConnectBtn = document.getElementById("mobile-connect-wallet-btn");
+    const mobileDisconnectBtn = document.getElementById("mobile-disconnect-wallet-btn");
+    
+    if (mobileConnectBtn) {
+        mobileConnectBtn.onclick = connectWallet;
+    }
+    if (mobileDisconnectBtn) {
+        mobileDisconnectBtn.onclick = disconnectWallet;
     }
     
     // Attack button
@@ -714,13 +874,20 @@ document.addEventListener('DOMContentLoaded', () => {
         attackBtn.onclick = performAttack;
     }
 
-    // Enhanced enter key support
+    // Enhanced enter key support for both username inputs
     const usernameInput = document.getElementById("username");
+    const mobileUsernameInput = document.getElementById("mobile-username");
+    
     if (usernameInput) {
         usernameInput.addEventListener("keypress", (e) => {
             if (e.key === "Enter") {
                 performAttack();
             }
+        });
+        
+        // Sync inputs when typing
+        usernameInput.addEventListener("input", () => {
+            syncUsernameInputs("username");
         });
         
         // Add focus effects to input
@@ -730,6 +897,28 @@ document.addEventListener('DOMContentLoaded', () => {
         
         usernameInput.addEventListener("blur", () => {
             usernameInput.style.transform = "scale(1)";
+        });
+    }
+    
+    if (mobileUsernameInput) {
+        mobileUsernameInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                performAttack();
+            }
+        });
+        
+        // Sync inputs when typing
+        mobileUsernameInput.addEventListener("input", () => {
+            syncUsernameInputs("mobile-username");
+        });
+        
+        // Add focus effects to input
+        mobileUsernameInput.addEventListener("focus", () => {
+            mobileUsernameInput.style.transform = "scale(1.02)";
+        });
+        
+        mobileUsernameInput.addEventListener("blur", () => {
+            mobileUsernameInput.style.transform = "scale(1)";
         });
     }
 });

@@ -1,4 +1,4 @@
-// Enhanced Boss Battle Game JavaScript - COMPLETE FIXED VERSION
+// Enhanced Boss Battle Game JavaScript - COMPLETE FIXED VERSION WITH MUSIC
 const contractAddress = "0x3b2628e38dd17fbe9e04d8a86272e26c111db06f";
 const contractABI = [
     {
@@ -71,6 +71,213 @@ let web3;
 let contract;
 let userAccount = null;
 let lastSavedUsername = "";
+
+// REPLACE YOUR EXISTING MUSIC FUNCTIONS WITH THESE:
+
+// Music Management System - IMPROVED VERSION
+let backgroundMusic = null;
+let isMusicMuted = false;
+let musicInitialized = false;
+let musicStarted = false;
+
+// Initialize music system
+function initializeMusic() {
+    if (musicInitialized) return;
+    
+    try {
+        backgroundMusic = new Audio('bossmusic.mp3');
+        backgroundMusic.loop = true;
+        backgroundMusic.volume = 0.6; // Set volume to 60%
+        backgroundMusic.preload = 'auto';
+        
+        // Load saved music preference
+        const savedMusicState = localStorage.getItem('musicMuted');
+        if (savedMusicState !== null) {
+            isMusicMuted = JSON.parse(savedMusicState);
+        }
+        
+        // Add event listeners for better control
+        backgroundMusic.addEventListener('loadeddata', () => {
+            console.log('Music loaded successfully');
+        });
+        
+        backgroundMusic.addEventListener('error', (e) => {
+            console.error('Music loading error:', e);
+        });
+        
+        updateAllMusicButtonStates();
+        musicInitialized = true;
+        
+        console.log('Music system initialized');
+    } catch (error) {
+        console.error('Failed to initialize music:', error);
+    }
+}
+
+// Start playing music immediately
+function startMusicImmediately() {
+    if (!musicInitialized) {
+        initializeMusic();
+    }
+    
+    if (backgroundMusic && !isMusicMuted && !musicStarted) {
+        backgroundMusic.play()
+            .then(() => {
+                console.log('Music started successfully');
+                musicStarted = true;
+                hideMusicOverlay();
+            })
+            .catch(error => {
+                console.log('Music autoplay failed:', error);
+                showMusicOverlay();
+            });
+    } else if (isMusicMuted) {
+        hideMusicOverlay();
+    }
+}
+
+// Toggle music on/off
+function toggleMusic() {
+    if (!musicInitialized) {
+        initializeMusic();
+    }
+    
+    isMusicMuted = !isMusicMuted;
+    
+    if (isMusicMuted) {
+        if (backgroundMusic && !backgroundMusic.paused) {
+            backgroundMusic.pause();
+        }
+        console.log('Music muted');
+    } else {
+        if (backgroundMusic) {
+            backgroundMusic.play()
+                .then(() => {
+                    console.log('Music resumed');
+                    musicStarted = true;
+                })
+                .catch(error => {
+                    console.log('Failed to resume music:', error);
+                });
+        }
+    }
+    
+    // Save preference
+    localStorage.setItem('musicMuted', JSON.stringify(isMusicMuted));
+    updateAllMusicButtonStates();
+}
+
+// Update ALL music button appearances (desktop + mobile)
+function updateAllMusicButtonStates() {
+    // Desktop button
+    const desktopMusicBtn = document.getElementById('desktop-music-toggle-btn');
+    const desktopMusicIcon = document.getElementById('desktop-music-icon');
+    const desktopMusicText = document.getElementById('desktop-music-text');
+    
+    // Mobile button
+    const mobileMusicBtn = document.getElementById('music-toggle-btn');
+    const mobileMusicIcon = document.getElementById('music-icon');
+    const mobileMusicText = document.getElementById('music-text');
+    
+    // Update desktop button
+    if (desktopMusicBtn && desktopMusicIcon && desktopMusicText) {
+        if (isMusicMuted) {
+            desktopMusicIcon.textContent = '🔇';
+            desktopMusicText.textContent = 'MUTED';
+            desktopMusicBtn.classList.add('muted');
+            desktopMusicBtn.classList.remove('playing');
+        } else {
+            desktopMusicIcon.textContent = '🎵';
+            desktopMusicText.textContent = 'MUSIC';
+            desktopMusicBtn.classList.add('playing');
+            desktopMusicBtn.classList.remove('muted');
+        }
+    }
+    
+    // Update mobile button
+    if (mobileMusicBtn && mobileMusicIcon && mobileMusicText) {
+        if (isMusicMuted) {
+            mobileMusicIcon.textContent = '🔇';
+            mobileMusicText.textContent = 'MUSIC OFF';
+            mobileMusicBtn.classList.add('muted');
+            mobileMusicBtn.classList.remove('playing');
+        } else {
+            mobileMusicIcon.textContent = '🎵';
+            mobileMusicText.textContent = 'MUSIC ON';
+            mobileMusicBtn.classList.add('playing');
+            mobileMusicBtn.classList.remove('muted');
+        }
+    }
+}
+
+// Show music start overlay
+function showMusicOverlay() {
+    const overlay = document.getElementById('music-start-overlay');
+    if (overlay) {
+        overlay.classList.remove('hidden');
+        overlay.style.display = 'flex';
+    }
+}
+
+// Hide music start overlay
+function hideMusicOverlay() {
+    const overlay = document.getElementById('music-start-overlay');
+    if (overlay) {
+        overlay.classList.add('hidden');
+        overlay.style.display = 'none';
+    }
+}
+
+// Handle start music button click
+function handleStartMusicClick() {
+    if (!musicInitialized) {
+        initializeMusic();
+    }
+    
+    if (backgroundMusic) {
+        backgroundMusic.play()
+            .then(() => {
+                console.log('Music started from overlay');
+                musicStarted = true;
+                hideMusicOverlay();
+            })
+            .catch(error => {
+                console.error('Failed to start music:', error);
+                alert('Failed to start music. Please check if the bossmusic.mp3 file exists.');
+            });
+    }
+}
+
+
+// Desktop Music toggle button
+const desktopMusicToggleBtn = document.getElementById("desktop-music-toggle-btn");
+if (desktopMusicToggleBtn) {
+    desktopMusicToggleBtn.onclick = toggleMusic;
+}
+
+// Mobile Music toggle button (keep existing)
+const musicToggleBtn = document.getElementById("music-toggle-btn");
+if (musicToggleBtn) {
+    musicToggleBtn.onclick = toggleMusic;
+}
+
+// Start music button in overlay
+const startMusicBtn = document.getElementById("start-music-btn");
+if (startMusicBtn) {
+    startMusicBtn.onclick = handleStartMusicClick;
+}
+
+// Try to start music immediately on page load
+setTimeout(() => {
+    startMusicImmediately();
+}, 1000);
+
+// Also try to start music on any click/interaction
+document.addEventListener('click', () => {
+    if (!musicStarted && !isMusicMuted) {
+        startMusicImmediately();
+    }
+}, { once: false });
 
 // Mobile Menu Functions
 function initMobileMenu() {
@@ -163,7 +370,11 @@ async function init() {
     createStars();
     createParticles();
     initMobileMenu();
-    
+    initializeMusic();
+    setTimeout(() => {
+
+        startMusicImmediately();
+    }, 1000);
     // Check if wallet was previously connected
     if (window.ethereum) {
         try {
@@ -397,6 +608,9 @@ async function connectWallet() {
             
             // Close mobile menu if open
             closeMobileMenu();
+            
+            // Initialize music on wallet connection
+            initMusicOnFirstInteraction();
             
             console.log("Wallet connected successfully:", userAccount);
             
@@ -873,6 +1087,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (attackBtn) {
         attackBtn.onclick = performAttack;
     }
+
+    // Desktop Music toggle button
+    const desktopMusicToggleBtn = document.getElementById("desktop-music-toggle-btn");
+    if (desktopMusicToggleBtn) {
+        desktopMusicToggleBtn.onclick = toggleMusic;
+    }
+
+    // Start music button in overlay
+    const startMusicBtn = document.getElementById("start-music-btn");
+    if (startMusicBtn) {
+        startMusicBtn.onclick = handleStartMusicClick;
+    }
+
+    // Try to start music on any interaction
+    document.addEventListener('click', () => {
+    if (!musicStarted && !isMusicMuted) {
+        startMusicImmediately();
+    }
+ })
 
     // Enhanced enter key support for both username inputs
     const usernameInput = document.getElementById("username");

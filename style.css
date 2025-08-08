@@ -753,3 +753,324 @@ h1 {
         font-size: 0.9rem;
     }
 }
+/* Music Toggle Button Styles */
+
+.mobile-music-section {
+    margin-top: 30px;
+    border-top: 1px solid rgba(78, 205, 196, 0.3);
+    padding-top: 20px;
+}
+
+.mobile-music-section h4 {
+    color: #4ecdc4;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+#music-toggle-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+#music-toggle-btn.playing {
+    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+    box-shadow: 0 6px 15px rgba(78, 205, 196, 0.4);
+}
+
+#music-toggle-btn.playing:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(78, 205, 196, 0.6);
+    background: linear-gradient(45deg, #5eddd4, #55c7e1);
+}
+
+#music-toggle-btn.muted {
+    background: linear-gradient(45deg, #666, #888);
+    box-shadow: 0 6px 15px rgba(102, 102, 102, 0.4);
+}
+
+#music-toggle-btn.muted:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(102, 102, 102, 0.6);
+    background: linear-gradient(45deg, #777, #999);
+}
+
+#music-icon {
+    font-size: 1.1rem;
+    animation: musicPulse 2s ease-in-out infinite;
+}
+
+#music-text {
+    font-size: 0.9rem;
+}
+
+@keyframes musicPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Playing animation for music icon */
+#music-toggle-btn.playing #music-icon {
+    animation: musicPulse 1.5s ease-in-out infinite;
+}
+
+#music-toggle-btn.muted #music-icon {
+    animation: none;
+    opacity: 0.6;
+}
+/* Additional CSS for Music Features - Add this to your style.css */
+
+/* Desktop Music Button */
+#desktop-music-toggle-btn {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#desktop-music-toggle-btn.playing {
+    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+    box-shadow: 0 6px 15px rgba(78, 205, 196, 0.4);
+}
+
+#desktop-music-toggle-btn.playing:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(78, 205, 196, 0.6);
+    background: linear-gradient(45deg, #5eddd4, #55c7e1);
+}
+
+#desktop-music-toggle-btn.muted {
+    background: linear-gradient(45deg, #666, #888);
+    box-shadow: 0 6px 15px rgba(102, 102, 102, 0.4);
+}
+
+#desktop-music-toggle-btn.muted:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(102, 102, 102, 0.6);
+    background: linear-gradient(45deg, #777, #999);
+}
+
+#desktop-music-icon {
+    font-size: 1.1rem;
+    animation: musicPulse 2s ease-in-out infinite;
+}
+
+#desktop-music-text {
+    font-size: 0.8rem;
+}
+
+#desktop-music-toggle-btn.playing #desktop-music-icon {
+    animation: musicPulse 1.5s ease-in-out infinite;
+}
+
+#desktop-music-toggle-btn.muted #desktop-music-icon {
+    animation: none;
+    opacity: 0.6;
+}
+
+/* Mobile Music Section (existing styles, keep them) */
+.mobile-music-section {
+    margin-top: 30px;
+    border-top: 1px solid rgba(78, 205, 196, 0.3);
+    padding-top: 20px;
+}
+
+.mobile-music-section h4 {
+    color: #4ecdc4;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+#music-toggle-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+#music-toggle-btn.playing {
+    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+    box-shadow: 0 6px 15px rgba(78, 205, 196, 0.4);
+}
+
+#music-toggle-btn.playing:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(78, 205, 196, 0.6);
+    background: linear-gradient(45deg, #5eddd4, #55c7e1);
+}
+
+#music-toggle-btn.muted {
+    background: linear-gradient(45deg, #666, #888);
+    box-shadow: 0 6px 15px rgba(102, 102, 102, 0.4);
+}
+
+#music-toggle-btn.muted:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(102, 102, 102, 0.6);
+    background: linear-gradient(45deg, #777, #999);
+}
+
+#music-icon {
+    font-size: 1.1rem;
+    animation: musicPulse 2s ease-in-out infinite;
+}
+
+#music-text {
+    font-size: 0.9rem;
+}
+
+@keyframes musicPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+#music-toggle-btn.playing #music-icon {
+    animation: musicPulse 1.5s ease-in-out infinite;
+}
+
+#music-toggle-btn.muted #music-icon {
+    animation: none;
+    opacity: 0.6;
+}
+
+/* Music Auto-Start Overlay */
+.music-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    color: white;
+    font-family: 'Orbitron', monospace;
+}
+
+.music-overlay-content {
+    text-align: center;
+    max-width: 500px;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #4ecdc4;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
+}
+
+.music-overlay-content h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4, #45b7d1);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 3s ease infinite;
+    margin-bottom: 20px;
+}
+
+.music-overlay-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+.start-music-button {
+    padding: 15px 30px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto;
+}
+
+.start-music-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(78, 205, 196, 0.6);
+    background: linear-gradient(45deg, #5eddd4, #55c7e1);
+}
+
+.start-music-button .btn-icon {
+    font-size: 1.5rem;
+    animation: musicPulse 1.5s ease-in-out infinite;
+}
+
+/* Hide overlay when music is initialized */
+.music-overlay.hidden {
+    display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .music-overlay-content {
+        margin: 20px;
+        padding: 30px 20px;
+    }
+    
+    .music-overlay-content h2 {
+        font-size: 2rem;
+    }
+    
+    .music-overlay-content p {
+        font-size: 1rem;
+    }
+    
+    .start-music-button {
+        font-size: 1.1rem;
+        padding: 12px 25px;
+    }
+}

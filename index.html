@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔥 EPIC BOSS BATTLE 🔥</title>
+    <title>🔥 NAD BOSS BATTLE 🔥</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
 </head>
@@ -22,6 +22,11 @@
                 <button id="disconnect-wallet-btn" style="display: none;">
                     <span class="btn-icon">🔌</span>
                     <span class="btn-text">DISCONNECT</span>
+                </button>
+                <!-- Desktop Music Button -->
+                <button id="desktop-music-toggle-btn" class="playing">
+                    <span id="desktop-music-icon">🎵</span>
+                    <span id="desktop-music-text">MUSIC</span>
                 </button>
             </div>
             <p id="wallet-status">Not Connected</p>
@@ -60,11 +65,30 @@
                 <h4>Your Stats</h4>
                 <div class="mobile-stat">Contribution: <span id="mobile-user-damage">0</span></div>
             </div>
+            
+            <!-- Music Control Section -->
+            <div class="mobile-music-section">
+                <h4>Music Control</h4>
+                <button id="music-toggle-btn" class="playing">
+                    <span id="music-icon">🎵</span>
+                    <span id="music-text">MUSIC ON</span>
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+    
+    <!-- Music Auto-Start Overlay -->
+    <div id="music-start-overlay" class="music-overlay">
+        <div class="music-overlay-content">
+            <button id="start-music-btn" class="start-music-button">
+                <span class="btn-icon">🎵</span>
+                <span class="btn-text">START MUSIC & PLAY</span>
+            </button>
+        </div>
+    </div>
     
     <div id="game-container">
         <h1>⚔️ NAD BOSS BATTLE ⚔️</h1>
